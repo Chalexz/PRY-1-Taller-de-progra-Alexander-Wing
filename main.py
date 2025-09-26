@@ -17,6 +17,23 @@ def mostrar_menu(): #menu principal | depende el input printea las funciones
     print("6. Salir")
     print("=================================")
 
+def cargar_vacunas(): #actualiza la lista vacunas con la info de todas las vacunas de vacunas.txt
+    vacunas = []
+
+    try:
+        with open('vacunas.txt', 'r') as archivo:
+            for linea in archivo:
+                datos = linea.strip().split(';') #PREGUNTAR
+                vacuna = {
+                "id": int(datos[0]),
+                "nombre": datos[1],
+                "dosis": int(datos[2]),
+                "edad_minima": int(datos[3])
+            }
+            vacunas.append(vacuna)
+    except FileNotFoundError: #valida si en verdad existe "vacunas.txt"
+        print("Archivo vacunas.txt no encontrado")
+
 def main(): #función principal 
     while True:
         mostrar_menu()
