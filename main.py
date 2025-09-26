@@ -39,6 +39,18 @@ def guardar_vacunas(vacunas):
         for vacuna in vacunas:
             archivo.write(f"{vacuna['id']};{vacuna['nombre']};{vacuna['dosis']};{vacuna['edad_minima']}\n")
 
+def agregar_vacunas(vacunas, nombre, dosis, edad_minima):
+    id_vacuna = len(vacunas) + 1
+    vacuna = {
+        "id": id_vacuna,
+        "nombre": nombre,
+        "dosis": dosis,
+        "edad_minima": edad_minima
+    }
+    vacunas.append(vacuna)
+    guardar_vacunas(vacunas)
+    print(f"La vacuna '{nombre}' añadida exitosamente ˙ ͜ʟ˙")
+
 def main(): #función principal 
     while True:
         mostrar_menu()
