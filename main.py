@@ -34,6 +34,11 @@ def cargar_vacunas(): #actualiza la lista vacunas con la info de todas las vacun
     except FileNotFoundError: #valida si en verdad existe "vacunas.txt"
         print("Archivo vacunas.txt no encontrado")
 
+def guardar_vacunas(vacunas):
+    with open("vacunas.txt" , "w") as archivo:
+        for vacuna in vacunas:
+            archivo.write(f"{vacuna['id']};{vacuna['nombre']};{vacuna['dosis']};{vacuna['edad_minima']}\n")
+
 def main(): #función principal 
     while True:
         mostrar_menu()
