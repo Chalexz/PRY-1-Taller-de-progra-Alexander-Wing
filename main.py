@@ -15,21 +15,27 @@ Taller de Programación - Semestre II 2025
 
 '''
 
+##=============================================== AUXILIARES / UTILIDADES ==============================================================
+
 import os #importo os para poder usar "cls" y limpiar la terminal luego de cada print de menus
 import datetime #importo datetime para sacar la fecha y usarla en registros de vacunacion
 
+#=============================================== MENU PRINCIPAL ==============================================================
+
 def mostrar_menu(): #menu principal | depende el input printea las funciones 
     os.system("cls")
-    print("=================================")
-    print("     Sistema de Vacunación")
-    print("=================================")
+    print("===================================")
+    print("    ✙ Sistema de Vacunación ✙")
+    print("===================================")
     print("1. Administración")
     print("2. Registro de Vacunación")
     print("3. Consultas")
     print("4. Estadísticas")
     print("5. Alerta de Seguimiento")
     print("6. Salir")
-    print("=================================")
+    print("===================================")
+
+#=============================================== FUNC. DE ADMINISTRACION ==============================================================
 
 def cargar_vacunas(): #actualiza la lista vacunas con la info de todas las vacunas de vacunas.txt
     vacunas = []
@@ -111,6 +117,8 @@ def menu_administracion(vacunas):
         else:
             print("Opción no válida. Intente de nuevo.")
 
+#=============================================== REGISTRO DE VACUNACION ==============================================================
+
 def cargar_registros(): 
     registros = []
     try:
@@ -135,6 +143,105 @@ def cargar_registros():
 def guardar_registro(registro):
     with open("registros.txt", "a") as archivo:  # "a" para añadir al final
         archivo.write(f"{registro['cedula']};{registro['nombre']};{registro['edad']};{registro['sexo']};{registro['id_vacuna']};{registro['fecha']};{registro['dosis']}\n")
+
+def registrar_vacunacion(vacunas, registros):
+    os.system("cls")
+    print("=== Registro de Vacunación ===")
+
+    # Cédula
+    while True:
+        cedula = input("Ingrese la cédula (9 dígitos): ")
+        if len(cedula) == 9 and cedula.isdigit():
+            break
+        else:
+            print("Cédula inválida. DEBE tener 9 dígitos.")
+
+    #Nombre
+    nombre = input("Ingrese el nombre completo: ")
+
+    # edad
+    while True:
+        try:
+            edad = int(input("Ingrese la edad: "))
+            if edad > 0:
+                break
+            else:
+                print("La edad debe ser mayor a 0")
+        except ValueError:
+            print("Ingrese un número válido")
+
+    # Sexo
+    while True:
+        sexo = input("Ingrese el sexo (M/F): ").upper() #modifica los "m" o "f" para forzar que sea M o F
+        if sexo in ["M", "F"]:
+            break
+        else:
+            print("Sexo inválido. Ingrese sí o sí 'M' o 'F'.")
+
+    # Mostrar vacunas disponibles
+    mostrar_vacunas(vacunas)
+
+    # Vacuna aplicada
+    while True:
+        try:
+            id_vacuna = int(input("Ingrese el ID de la vacuna aplicada: "))
+            vacuna_elegida = None
+            for v in vacunas:
+                if v["id"] == id_vacuna:
+                    vacuna_elegida = v
+                    break
+            if vacuna_elegida:
+                if edad >= vacuna_elegida["edad_minima"]:
+                    break
+                else:
+                    print(f"La edad mínima para esta vacuna es {vacuna_elegida['edad_minima']}")
+            else:
+                print("ID de vacuna inválido.")
+        except ValueError:
+            print("Ingrese un número válido.")
+
+    # Dosis
+    while True:
+        try:
+            dosis = int(input(f"Ingrese número de dosis aplicadas (max {vacuna_elegida['dosis']}): "))
+            if 1 <= dosis <= vacuna_elegida["dosis"]:
+                # Validar que no se repita una dosis de la misma vacuna
+                existe = False
+                for r in registros:
+                    if r["cedula"] == cedula and r["id_vacuna"] == id_vacuna and r["dosis"] == dosis:
+                        existe = True
+                        break
+                if not existe:
+                    break
+                else:
+                    print("Esta dosis ya fue registrada para esta persona.")
+            else:
+                print(f"Dosis inválida. Debe estar entre 1 y {vacuna_elegida['dosis']}.")
+        except ValueError:
+            print("Ingrese un número válido.")
+
+    # Fecha automática
+    fecha = datetime.date.today().isoformat()
+
+    # Crear registro
+    registro = {
+        "cedula": cedula,
+        "nombre": nombre,
+        "edad": edad,
+        "sexo": sexo,
+        "id_vacuna": id_vacuna,
+        "fecha": fecha,
+        "dosis": dosis
+    }
+
+    # Guardar registro
+    guardar_registro(registro)
+    registros.append(registro)
+    print(f"\nRegistro de vacunación de {nombre} agregado correctamente")
+    input("\nPresione Enter para continuar...")
+
+#=============================================== FUNC. DE CONSULTA ==============================================================
+
 
 
 def main():
