@@ -19,10 +19,36 @@ Taller de Programación - Semestre II 2025
 
 import os #importo os para poder usar "cls" y limpiar la terminal luego de cada print de menus
 import datetime #importo datetime para sacar la fecha y usarla en registros de vacunacion
+"""
+Objetivo: Autenticar al usuario verificando sus credenciales contra el archivo usuarios.txt.
+Entrada: ninguna
+Salida: True si el usuario y clave son correctos, False si no
+Restricción: compara con usuarios.txt, formato usuario;clave
+"""
+def autenticar_usuario():
+    
+    usuario_input = input("Ingrese usuario: ")
+    clave_input = input("Ingrese contraseña: ")
+    
+    try:
+        with open("usuarios.txt", "r") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split(";")
+                if len(datos) == 2:
+                    usuario, clave = datos
+                    if usuario_input == usuario and clave_input == clave:
+                        print("Autenticación exitosa \ (•◡•) /")
+                        return True
+        print("Usuario o clave incorrectos ಠ╭╮ಠ")
+        return False
+    except FileNotFoundError:
+        print("Archivo usuarios.txt no encontrado ಠ╭╮ಠ")
+        return False
 
 #=============================================== MENU PRINCIPAL ==============================================================
 
 """
+Objetivo: Mostrar el menú principal del sistema de vacunación.
 entrada: ninguna
 salida: imprime el menú principal en pantalla
 restricción: limpia la terminal antes de mostrar el menú
@@ -40,7 +66,10 @@ def mostrar_menu():
     print("6. Salir")
     print("===================================")
 
+#=============================================== FUNCIONES ADMINISTRACION ==============================================================
+
 """
+Objetivo: Cargar la información de las vacunas desde el archivo vacunas.txt.
 entrada: ninguna
 salida: retorna una lista de diccionarios con la información de cada vacuna leída desde vacunas.txt
 restricción: si el archivo no existe, imprime un mensaje y retorna una lista vacía
@@ -63,6 +92,7 @@ def cargar_vacunas():
     return vacunas
 
 """
+Objetivo: Guardar la lista de vacunas en el archivo vacunas.txt.
 entrada: una lista con todas las vacunas existentes guardadas más recientemente
 salida: no retorna nada persé, pero sí reescribe o crea y escribe en el archivo de texto vacunas.txt, cada una de las vacunas en la lista vacunas, y lo da por línea, con ayuda de un salto de linea
 restricción: sobrescribe el archivo, por lo que se pierden los datos anteriores
@@ -73,6 +103,7 @@ def guardar_vacunas(vacunas):
             archivo.write(f"{vacuna['id']};{vacuna['nombre']};{vacuna['dosis']};{vacuna['edad_minima']}\n")
 
 """
+Objetivo: Agregar una nueva vacuna a la lista y almacenarla en el archivo.
 entrada: lista de vacunas, nombre de la vacuna, cantidad de dosis, edad mínima
 salida: agrega una nueva vacuna a la lista y la guarda en el archivo vacunas.txt, imprime mensaje de éxito
 restricción: el id de la vacuna se asigna automáticamente como el siguiente número entero
@@ -90,6 +121,7 @@ def agregar_vacunas(vacunas, nombre, dosis, edad_minima):
     print(f"La vacuna '{nombre}' añadida exitosamente \ (•◡•) /")
 
 """
+Objetivo: Eliminar una vacuna de la lista y actualizar el archivo.
 entrada: lista de vacunas, id de la vacuna a eliminar
 salida: elimina la vacuna de la lista y actualiza el archivo vacunas.txt, imprime mensaje de éxito o error
 restricción: solo elimina si encuentra el id, si no existe muestra mensaje de error
@@ -108,6 +140,7 @@ def eliminar_vacuna(vacunas, id_vacuna):
         print(f"No se encontró una vacuna con el ID {id_vacuna}")
 
 """
+Objetivo: Mostrar todas las vacunas disponibles en pantalla.
 entrada: lista de vacunas
 salida: imprime en pantalla la información de todas las vacunas disponibles
 restricción: si la lista está vacía, no imprime nada
@@ -118,6 +151,7 @@ def mostrar_vacunas(vacunas):
         print(f"ID: {vacuna['id']} - Nombre: {vacuna['nombre']} - Dosis: {vacuna['dosis']} - Edad mínima: {vacuna['edad_minima']}")
 
 """
+Objetivo: Permitir la administración de vacunas (agregar, eliminar, mostrar).
 entrada: lista de vacunas
 salida: permite al usuario agregar, eliminar o mostrar vacunas, o volver al menú principal
 restricción: el menú se repite hasta que el usuario elija salir
@@ -146,7 +180,10 @@ def menu_administracion(vacunas):
         else:
             print("Opción no válida. Intente de nuevo ಠ╭╮ಠ")
 
+#=============================================== FUNCIONES REGISTRO ==============================================================
+
 """
+Objetivo: Cargar los registros de vacunación desde el archivo registros.txt.
 entrada: ninguna
 salida: retorna una lista de diccionarios con los registros de vacunación leídos desde registros.txt
 restricción: si el archivo no existe, imprime un mensaje y retorna una lista vacía
@@ -173,6 +210,7 @@ def cargar_registros():
     return registros
 
 """
+Objetivo: Guardar un registro de vacunación en el archivo registros.txt.
 entrada: un diccionario con los datos de un registro de vacunación
 salida: agrega el registro al archivo registros.txt
 restricción: el archivo se abre en modo append, por lo que solo agrega al final
@@ -182,6 +220,7 @@ def guardar_registro(registro):
         archivo.write(f"{registro['cedula']};{registro['nombre']};{registro['edad']};{registro['sexo']};{registro['id_vacuna']};{registro['fecha']};{registro['dosis']}\n")
 
 """
+Objetivo: Registrar una nueva vacunación solicitando los datos al usuario.
 entrada: lista de vacunas y lista de registros de vacunación
 salida: solicita datos al usuario, crea y guarda un registro de vacunación
 restricción: valida que los datos ingresados sean correctos y que no se repita una dosis para la misma persona y vacuna
@@ -285,6 +324,7 @@ def registrar_vacunacion(vacunas, registros):
 #=============================================== FUNC. DE CONSULTA ==============================================================
 
 """
+Objetivo: Consultar e imprimir los registros de vacunación asociados a una cédula.
 entrada: lista de registros y una cédula a consultar
 salida: imprime en pantalla los registros asociados a esa cédula
 restricción: si no hay registros para esa cédula, muestra un mensaje
@@ -300,6 +340,7 @@ def consultar_por_cedula(registros, cedula):
     input("Presione Enter para continuar...")
 
 """
+Objetivo: Consultar e imprimir los registros de vacunación asociados a un id de vacuna.
 entrada: lista de registros y un id de vacuna
 salida: imprime en pantalla los registros asociados a ese id de vacuna
 restricción: si no hay registros para esa vacuna, muestra un mensaje
@@ -315,6 +356,7 @@ def consultar_por_vacuna(registros, id_vacuna):
     input("Presione Enter para continuar...")
 
 """
+Objetivo: Consultar e imprimir los registros de vacunación dentro de un rango de edad.
 entrada: lista de registros, edad mínima y edad máxima
 salida: imprime en pantalla los registros de personas dentro del rango de edad
 restricción: si no hay registros en ese rango, muestra un mensaje
@@ -330,6 +372,7 @@ def consultar_por_rango_edad(registros, edad_min, edad_max):
     input("Presione Enter para continuar...")
 
 """
+Objetivo: Calcular e imprimir estadísticas generales sobre la vacunación.
 entrada: lista de registros y lista de vacunas
 salida: imprime estadísticas generales sobre la vacunación
 restricción: si no hay datos suficientes, muestra mensajes informativos
@@ -372,6 +415,7 @@ def estadisticas_generales(registros, vacunas):
 #=============================================== FUNCIONES ALERTA DE SEGUIMIENTO ==============================================================
 
 """
+Objetivo: Mostrar las personas que deben recibir la siguiente dosis de vacuna.
 entrada: lista de registros y lista de vacunas
 salida: imprime las personas que deben recibir la siguiente dosis
 restricción: solo considera vacunas con más de una dosis y personas que no han completado el esquema
@@ -395,6 +439,7 @@ def alerta_seguimiento(registros, vacunas):
     input("Presione Enter para continuar...")
 
 """
+Objetivo: Ejecutar el flujo principal del sistema de vacunación.
 entrada: ninguna
 salida: ejecuta el flujo principal del sistema de vacunación
 restricción: el ciclo principal se repite hasta que el usuario elige salir
@@ -408,7 +453,10 @@ def main():
         opcion = input("Seleccione una opción: ") 
 
         if opcion == "1":
-            menu_administracion(vacunas)
+            if autenticar_usuario():
+                menu_administracion(vacunas)
+            else:
+                input("No puede acceder a Administración. Presione Enter para continuar...")
         elif opcion == "2":
             registrar_vacunacion(vacunas, registros)
         elif opcion == "3":
@@ -434,11 +482,11 @@ def main():
         elif opcion == "5":
             alerta_seguimiento(registros, vacunas)
         elif opcion == "6":
-            print("Saliendo del sistema... ¡Adiós!")
+            print("Saliendo del sistema... (ง ͠° ͟ل͜ ͡°)ง")
             guardar_vacunas(vacunas)
             break
         else:
-            print("Opción no válida, intente de nuevo.")
+            print("Opción no válida, intente de nuevo (▀̿Ĺ̯▀̿ ̿)")
 
 if __name__ == "__main__":
     main()
