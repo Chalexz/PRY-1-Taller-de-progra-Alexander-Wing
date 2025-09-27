@@ -242,7 +242,35 @@ def registrar_vacunacion(vacunas, registros):
 
 #=============================================== FUNC. DE CONSULTA ==============================================================
 
+def consultar_por_cedula(registros, cedula):
+    encontrados = [r for r in registros if r["cedula"] == cedula]
+    if encontrados:
+        print(f"\nRegistros para cédula {cedula}:")
+        for r in encontrados:
+            print(f"{r['nombre']} - Vacuna ID {r['id_vacuna']} - Dosis {r['dosis']} - Fecha {r['fecha']}")
+    else:
+        print("No se encontraron registros para esa cédula.")
+    input("Presione Enter para continuar...")
 
+def consultar_por_vacuna(registros, id_vacuna):
+    encontrados = [r for r in registros if r["id_vacuna"] == id_vacuna]
+    if encontrados:
+        print(f"\nPersonas vacunadas con ID de vacuna {id_vacuna}:")
+        for r in encontrados:
+            print(f"{r['nombre']} - Cédula {r['cedula']} - Dosis {r['dosis']} - Fecha {r['fecha']}")
+    else:
+        print("No se encontraron registros para esa vacuna.")
+    input("Presione Enter para continuar...")
+
+def consultar_por_rango_edad(registros, edad_min, edad_max):
+    encontrados = [r for r in registros if edad_min <= r["edad"] <= edad_max]
+    if encontrados:
+        print(f"\nPersonas con edades entre {edad_min} y {edad_max}:")
+        for r in encontrados:
+            print(f"{r['nombre']} - Cédula {r['cedula']} - Vacuna ID {r['id_vacuna']} - Dosis {r['dosis']}")
+    else:
+        print("No se encontraron registros en ese rango de edad.")
+    input("Presione Enter para continuar...")
 
 def main():
     vacunas = cargar_vacunas() 
