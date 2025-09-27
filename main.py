@@ -70,6 +70,30 @@ def mostrar_vacunas(vacunas):
     for vacuna in vacunas:
         print(f"ID: {vacuna['id']} - Nombre: {vacuna['nombre']} - Dosis: {vacuna['dosis']} - Edad mínima: {vacuna['edad_minima']}")
 
+def menu_administracion(vacunas):
+    while True: 
+        print('\n Menu Administración')
+        print("1. Agregar Vacuna")
+        print("2. Eliminar Vacuna")
+        print("3. Mostrar Vacuna")
+        print("4. Volver al Menú Principal")
+        opcion = input("Favor seleccionar una de las opciones. Digite el número:  ")
+
+        if opcion == "1":
+            nombre = input("Ingrese el nombre de la vacuna a agregar: ")
+            dosis = int(input("Ingrese la dosis requerida (1 o 2): "))
+            edad_minima = int(input("Ingrese la edad mínima recomendada para la vacuna en cuestión: "))
+            agregar_vacunas(vacunas, nombre, dosis, edad_minima)
+        elif opcion == "2":
+            id_vacuna = int(input("Ingrese el ID de la vacuna a eliminar: "))
+            eliminar_vacuna(vacunas, id_vacuna)
+        elif opcion == "3":
+            mostrar_vacunas(vacunas)
+        elif opcion == "4":
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")
+
 
 def main(): #función principal 
     while True:
