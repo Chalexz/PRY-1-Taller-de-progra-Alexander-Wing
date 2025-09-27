@@ -132,6 +132,10 @@ def cargar_registros():
         print("Archivo registros.txt no encontrado")
     return registros
 
+def guardar_registro(registro):
+    with open("registros.txt", "a") as archivo:  # "a" para añadir al final
+        archivo.write(f"{registro['cedula']};{registro['nombre']};{registro['edad']};{registro['sexo']};{registro['id_vacuna']};{registro['fecha']};{registro['dosis']}\n")
+
 
 def main():
     vacunas = cargar_vacunas() 
