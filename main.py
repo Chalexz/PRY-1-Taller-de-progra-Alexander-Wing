@@ -23,16 +23,18 @@ def cargar_vacunas(): #actualiza la lista vacunas con la info de todas las vacun
     try:
         with open('vacunas.txt', 'r') as archivo:
             for linea in archivo:
-                datos = linea.strip().split(';') #PREGUNTAR
+                datos = linea.strip().split(';') 
                 vacuna = {
                 "id": int(datos[0]),
                 "nombre": datos[1],
                 "dosis": int(datos[2]),
                 "edad_minima": int(datos[3])
             }
-            vacunas.append(vacuna)
+                vacunas.append(vacuna)
     except FileNotFoundError: #valida si en verdad existe "vacunas.txt"
         print("Archivo vacunas.txt no encontrado")
+    
+    return vacunas
 
 def guardar_vacunas(vacunas):
     with open("vacunas.txt" , "w") as archivo:
@@ -95,13 +97,14 @@ def menu_administracion(vacunas):
             print("Opción no válida. Intente de nuevo.")
 
 
-def main(): #función principal 
+def main():
+    vacunas = cargar_vacunas() 
     while True:
         mostrar_menu()
-        opcion = input("Seleccione una opción: ") #toma el input del menu principal
+        opcion = input("Seleccione una opción: ") 
 
         if opcion == "1":
-            print("Entrando a Administración...")
+            menu_administracion(vacunas) 
         elif opcion == "2":
             print("Entrando a Registro de Vacunación...")
         elif opcion == "3":
@@ -112,9 +115,11 @@ def main(): #función principal
             print("Entrando a Alerta de Seguimiento...")
         elif opcion == "6":
             print("Saliendo del sistema... ¡Adiós!")
+            guardar_vacunas(vacunas)  
             break
         else:
             print("Opción no válida, intente de nuevo.")
+
 
 
 if __name__ == "__main__":
