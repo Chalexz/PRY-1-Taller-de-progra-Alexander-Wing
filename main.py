@@ -51,6 +51,20 @@ def agregar_vacunas(vacunas, nombre, dosis, edad_minima):
     guardar_vacunas(vacunas)
     print(f"La vacuna '{nombre}' añadida exitosamente ˙ ͜ʟ˙")
 
+def eliminar_vacuna(vacunas, id_vacuna):
+    vacuna_eliminar = None
+    for vacuna in vacunas:
+        if vacuna['id'] == id_vacuna:
+            vacuna_eliminar = vacuna
+            break
+    
+    if vacuna_eliminar:
+        vacunas.remove(vacuna_eliminar)
+        guardar_vacunas(vacunas)
+        print(f"Vacuna con ID {id_vacuna} eliminada exitosamente")
+    else:
+        print(f"No se encontró una vacuna con el ID {id_vacuna}")
+
 def main(): #función principal 
     while True:
         mostrar_menu()
