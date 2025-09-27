@@ -329,25 +329,45 @@ def alerta_seguimiento(registros, vacunas):
         print("No hay personas pendientes de dosis")
     input("Presione Enter para continuar...")
 
+#=============================================== FUNCION MAIN ==============================================================
+
 def main():
-    vacunas = cargar_vacunas() 
+    vacunas = cargar_vacunas()
+    registros = cargar_registros()
+
     while True:
         mostrar_menu()
         opcion = input("Seleccione una opción: ") 
 
         if opcion == "1":
-            menu_administracion(vacunas) 
+            menu_administracion(vacunas)
         elif opcion == "2":
-            print("Entrando a Registro de Vacunación...")
+            registrar_vacunacion(vacunas, registros)
         elif opcion == "3":
-            print("Entrando a Consultas...")
+            os.system("cls")
+            print("=== Consultas ===")
+            print("1. Por Cédula")
+            print("2. Por Vacuna")
+            print("3. Por Rango de Edad")
+            print("4. Volver")
+            op = input("Seleccione una opción: ")
+            if op=="1":
+                ced = input("Ingrese la cédula a consultar: ")
+                consultar_por_cedula(registros, ced)
+            elif op=="2":
+                vid = int(input("Ingrese el ID de la vacuna a consultar: "))
+                consultar_por_vacuna(registros, vid)
+            elif op=="3":
+                emin = int(input("Edad mínima: "))
+                emax = int(input("Edad máxima: "))
+                consultar_por_rango_edad(registros, emin, emax)
         elif opcion == "4":
-            print("Entrando a Estadísticas...")
+            estadisticas_generales(registros, vacunas)
         elif opcion == "5":
-            print("Entrando a Alerta de Seguimiento...")
+            alerta_seguimiento(registros, vacunas)
         elif opcion == "6":
             print("Saliendo del sistema... ¡Adiós!")
-            guardar_vacunas(vacunas)  
+            guardar_vacunas(vacunas)
             break
         else:
             print("Opción no válida, intente de nuevo.")
