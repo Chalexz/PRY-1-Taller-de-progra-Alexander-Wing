@@ -22,7 +22,12 @@ import datetime #importo datetime para sacar la fecha y usarla en registros de v
 
 #=============================================== MENU PRINCIPAL ==============================================================
 
-def mostrar_menu(): #menu principal | depende el input printea las funciones 
+"""
+entrada: ninguna
+salida: imprime el menú principal en pantalla
+restricción: limpia la terminal antes de mostrar el menú
+"""
+def mostrar_menu():    
     os.system("cls")
     print("===================================")
     print("    ✙ Sistema de Vacunación ✙")
@@ -35,11 +40,13 @@ def mostrar_menu(): #menu principal | depende el input printea las funciones
     print("6. Salir")
     print("===================================")
 
-#=============================================== FUNC. DE ADMINISTRACION ==============================================================
-
-def cargar_vacunas(): #actualiza la lista vacunas con la info de todas las vacunas de vacunas.txt
+"""
+entrada: ninguna
+salida: retorna una lista de diccionarios con la información de cada vacuna leída desde vacunas.txt
+restricción: si el archivo no existe, imprime un mensaje y retorna una lista vacía
+"""
+def cargar_vacunas(): 
     vacunas = []
-
     try:
         with open('vacunas.txt', 'r') as archivo:
             for linea in archivo:
@@ -51,16 +58,25 @@ def cargar_vacunas(): #actualiza la lista vacunas con la info de todas las vacun
                 "edad_minima": int(datos[3])
             }
                 vacunas.append(vacuna)
-    except FileNotFoundError: #valida si en verdad existe "vacunas.txt"
+    except FileNotFoundError:
         print("Archivo vacunas.txt no encontrado")
-    
     return vacunas
 
+"""
+entrada: una lista con todas las vacunas existentes guardadas más recientemente
+salida: no retorna nada persé, pero sí reescribe o crea y escribe en el archivo de texto vacunas.txt, cada una de las vacunas en la lista vacunas, y lo da por línea, con ayuda de un salto de linea
+restricción: sobrescribe el archivo, por lo que se pierden los datos anteriores
+"""
 def guardar_vacunas(vacunas):
     with open("vacunas.txt" , "w") as archivo:
         for vacuna in vacunas:
             archivo.write(f"{vacuna['id']};{vacuna['nombre']};{vacuna['dosis']};{vacuna['edad_minima']}\n")
 
+"""
+entrada: lista de vacunas, nombre de la vacuna, cantidad de dosis, edad mínima
+salida: agrega una nueva vacuna a la lista y la guarda en el archivo vacunas.txt, imprime mensaje de éxito
+restricción: el id de la vacuna se asigna automáticamente como el siguiente número entero
+"""
 def agregar_vacunas(vacunas, nombre, dosis, edad_minima):
     id_vacuna = len(vacunas) + 1
     vacuna = {
@@ -71,27 +87,41 @@ def agregar_vacunas(vacunas, nombre, dosis, edad_minima):
     }
     vacunas.append(vacuna)
     guardar_vacunas(vacunas)
-    print(f"La vacuna '{nombre}' añadida exitosamente ˙ ͜ʟ˙")
+    print(f"La vacuna '{nombre}' añadida exitosamente \ (•◡•) /")
 
+"""
+entrada: lista de vacunas, id de la vacuna a eliminar
+salida: elimina la vacuna de la lista y actualiza el archivo vacunas.txt, imprime mensaje de éxito o error
+restricción: solo elimina si encuentra el id, si no existe muestra mensaje de error
+"""
 def eliminar_vacuna(vacunas, id_vacuna):
     vacuna_eliminar = None
     for vacuna in vacunas:
         if vacuna['id'] == id_vacuna:
             vacuna_eliminar = vacuna
             break
-    
     if vacuna_eliminar:
         vacunas.remove(vacuna_eliminar)
         guardar_vacunas(vacunas)
-        print(f"Vacuna con ID {id_vacuna} eliminada exitosamente")
+        print(f"Vacuna con ID {id_vacuna} eliminada exitosamente \ (•◡•) /")
     else:
         print(f"No se encontró una vacuna con el ID {id_vacuna}")
 
+"""
+entrada: lista de vacunas
+salida: imprime en pantalla la información de todas las vacunas disponibles
+restricción: si la lista está vacía, no imprime nada
+"""
 def mostrar_vacunas(vacunas):
     print("Lista de vacunas disponibles:")
     for vacuna in vacunas:
         print(f"ID: {vacuna['id']} - Nombre: {vacuna['nombre']} - Dosis: {vacuna['dosis']} - Edad mínima: {vacuna['edad_minima']}")
 
+"""
+entrada: lista de vacunas
+salida: permite al usuario agregar, eliminar o mostrar vacunas, o volver al menú principal
+restricción: el menú se repite hasta que el usuario elija salir
+"""
 def menu_administracion(vacunas):
     while True: 
         os.system("cls")
@@ -101,7 +131,6 @@ def menu_administracion(vacunas):
         print("3. Mostrar Vacuna")
         print("4. Volver al Menú Principal")
         opcion = input("Favor seleccionar una de las opciones. Digite el número:  ")
-
         if opcion == "1":
             nombre = input("Ingrese el nombre de la vacuna a agregar: ")
             dosis = int(input("Ingrese la dosis requerida (1 o 2): "))
@@ -115,10 +144,13 @@ def menu_administracion(vacunas):
         elif opcion == "4":
             break
         else:
-            print("Opción no válida. Intente de nuevo.")
+            print("Opción no válida. Intente de nuevo ಠ╭╮ಠ")
 
-#=============================================== REGISTRO DE VACUNACION ==============================================================
-
+"""
+entrada: ninguna
+salida: retorna una lista de diccionarios con los registros de vacunación leídos desde registros.txt
+restricción: si el archivo no existe, imprime un mensaje y retorna una lista vacía
+"""
 def cargar_registros(): 
     registros = []
     try:
@@ -137,13 +169,23 @@ def cargar_registros():
 
                 registros.append(registro)
     except FileNotFoundError:
-        print("Archivo registros.txt no encontrado")
+        print("Archivo registros.txt no encontrado ಠ╭╮ಠ")
     return registros
 
+"""
+entrada: un diccionario con los datos de un registro de vacunación
+salida: agrega el registro al archivo registros.txt
+restricción: el archivo se abre en modo append, por lo que solo agrega al final
+"""
 def guardar_registro(registro):
     with open("registros.txt", "a") as archivo:  # "a" para añadir al final
         archivo.write(f"{registro['cedula']};{registro['nombre']};{registro['edad']};{registro['sexo']};{registro['id_vacuna']};{registro['fecha']};{registro['dosis']}\n")
 
+"""
+entrada: lista de vacunas y lista de registros de vacunación
+salida: solicita datos al usuario, crea y guarda un registro de vacunación
+restricción: valida que los datos ingresados sean correctos y que no se repita una dosis para la misma persona y vacuna
+"""
 def registrar_vacunacion(vacunas, registros):
     os.system("cls")
     print("=== Registro de Vacunación ===")
@@ -166,7 +208,7 @@ def registrar_vacunacion(vacunas, registros):
             if edad > 0:
                 break
             else:
-                print("La edad debe ser mayor a 0")
+                print("La edad debe ser mayor a 0.  ಠ╭╮ಠ")
         except ValueError:
             print("Ingrese un número válido")
 
@@ -176,7 +218,7 @@ def registrar_vacunacion(vacunas, registros):
         if sexo in ["M", "F"]:
             break
         else:
-            print("Sexo inválido. Ingrese sí o sí 'M' o 'F'.")
+            print("Sexo inválido. Ingrese sí o sí 'M' o 'F'. ಠ╭╮ಠ")
 
     # Mostrar vacunas disponibles
     mostrar_vacunas(vacunas)
@@ -214,11 +256,11 @@ def registrar_vacunacion(vacunas, registros):
                 if not existe:
                     break
                 else:
-                    print("Esta dosis ya fue registrada para esta persona.")
+                    print("Esta dosis ya fue registrada para esta persona ಠ╭╮ಠ")
             else:
                 print(f"Dosis inválida. Debe estar entre 1 y {vacuna_elegida['dosis']}.")
         except ValueError:
-            print("Ingrese un número válido.")
+            print("Ingrese un número válido ಠ╭╮ಠ")
 
     # Fecha automática
     fecha = datetime.date.today().isoformat()
@@ -237,11 +279,16 @@ def registrar_vacunacion(vacunas, registros):
     # Guardar registro
     guardar_registro(registro)
     registros.append(registro)
-    print(f"\nRegistro de vacunación de {nombre} agregado correctamente")
+    print(f"\nRegistro de vacunación de {nombre} agregado correctamente \ (•◡•) /")
     input("\nPresione Enter para continuar...")
 
 #=============================================== FUNC. DE CONSULTA ==============================================================
 
+"""
+entrada: lista de registros y una cédula a consultar
+salida: imprime en pantalla los registros asociados a esa cédula
+restricción: si no hay registros para esa cédula, muestra un mensaje
+"""
 def consultar_por_cedula(registros, cedula):
     encontrados = [r for r in registros if r["cedula"] == cedula]
     if encontrados:
@@ -252,6 +299,11 @@ def consultar_por_cedula(registros, cedula):
         print("No se encontraron registros para esa cédula.")
     input("Presione Enter para continuar...")
 
+"""
+entrada: lista de registros y un id de vacuna
+salida: imprime en pantalla los registros asociados a ese id de vacuna
+restricción: si no hay registros para esa vacuna, muestra un mensaje
+"""
 def consultar_por_vacuna(registros, id_vacuna):
     encontrados = [r for r in registros if r["id_vacuna"] == id_vacuna]
     if encontrados:
@@ -259,9 +311,14 @@ def consultar_por_vacuna(registros, id_vacuna):
         for r in encontrados:
             print(f"{r['nombre']} - Cédula {r['cedula']} - Dosis {r['dosis']} - Fecha {r['fecha']}")
     else:
-        print("No se encontraron registros para esa vacuna.")
+        print("No se encontraron registros para esa vacuna")
     input("Presione Enter para continuar...")
 
+"""
+entrada: lista de registros, edad mínima y edad máxima
+salida: imprime en pantalla los registros de personas dentro del rango de edad
+restricción: si no hay registros en ese rango, muestra un mensaje
+"""
 def consultar_por_rango_edad(registros, edad_min, edad_max):
     encontrados = [r for r in registros if edad_min <= r["edad"] <= edad_max]
     if encontrados:
@@ -269,13 +326,16 @@ def consultar_por_rango_edad(registros, edad_min, edad_max):
         for r in encontrados:
             print(f"{r['nombre']} - Cédula {r['cedula']} - Vacuna ID {r['id_vacuna']} - Dosis {r['dosis']}")
     else:
-        print("No se encontraron registros en ese rango de edad.")
+        print("No se encontraron registros en ese rango de edad")
     input("Presione Enter para continuar...")
 
-#=============================================== FUNCIONES ESTADISTICAS ==============================================================
-
+"""
+entrada: lista de registros y lista de vacunas
+salida: imprime estadísticas generales sobre la vacunación
+restricción: si no hay datos suficientes, muestra mensajes informativos
+"""
 def estadisticas_generales(registros, vacunas):
-    limpiar_pantalla()
+    os.system("cls")
     total_personas = len(set([r["cedula"] for r in registros]))
     print(f"Total de personas vacunadas (únicas): {total_personas}")
 
@@ -297,9 +357,9 @@ def estadisticas_generales(registros, vacunas):
     total = hombres + mujeres
     if total > 0:
         print(f"\nPorcentaje de hombres vacunados: {hombres*100/total:.2f}%")
-        print(f"Porcentaje de mujeres vacunadas: {mujeres*100/total:.2f}%")
+        print(f"Porcentaje de mujeres vacunados: {mujeres*100/total:.2f}%")
     else:
-        print("\nNo hay datos de sexo para calcular porcentaje")
+        print("\nNo hay datos de sexo para calcular porcentaje ಠ╭╮ಠ")
 
     completos = 0
     for r in registros:
@@ -311,6 +371,11 @@ def estadisticas_generales(registros, vacunas):
 
 #=============================================== FUNCIONES ALERTA DE SEGUIMIENTO ==============================================================
 
+"""
+entrada: lista de registros y lista de vacunas
+salida: imprime las personas que deben recibir la siguiente dosis
+restricción: solo considera vacunas con más de una dosis y personas que no han completado el esquema
+"""
 def alerta_seguimiento(registros, vacunas):
     os.system("cls")
     hoy = datetime.date.today()
@@ -329,8 +394,11 @@ def alerta_seguimiento(registros, vacunas):
         print("No hay personas pendientes de dosis")
     input("Presione Enter para continuar...")
 
-#=============================================== FUNCION MAIN ==============================================================
-
+"""
+entrada: ninguna
+salida: ejecuta el flujo principal del sistema de vacunación
+restricción: el ciclo principal se repite hasta que el usuario elige salir
+"""
 def main():
     vacunas = cargar_vacunas()
     registros = cargar_registros()

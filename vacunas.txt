@@ -1,0 +1,60 @@
+1;COVID-19;2;18
+2;Fiebre Amarilla;1;9
+3;Influenza;1;6
+4;Tétanos;1;12
+5;Hepatitis A;2;1
+6;Hepatitis B;3;0
+7;Varicela;2;1
+8;Triple Viral;2;1
+9;Difteria;1;12
+10;Polio;3;0
+11;Rotavirus;2;0
+12;Neumococo;2;2
+13;Meningococo;2;2
+14;Papiloma Humano;2;9
+15;Rabia;2;0
+16;Tosferina;1;6
+17;Sarampión;1;1
+18;Rubéola;1;1
+19;Parotiditis;1;1
+20;Varicela Zoster;1;1
+21;H1N1;1;6
+22;H3N2;1;6
+23;Gripe Estacional;1;6
+24;Rotavirus 2;2;0
+25;Neumococo 2;2;2
+26;Meningococo B;2;2
+27;Hepatitis C;1;0
+28;Tétanos 2;1;12
+29;Polio 2;3;0
+30;Influenza 2;1;6
+31;COVID-19 Refuerzo;1;18
+32;Fiebre Amarilla 2;1;9
+33;Influenza 3;1;6
+34;Tétanos 3;1;12
+35;Hepatitis A 2;2;1
+36;Hepatitis B 2;3;0
+37;Varicela 2;2;1
+38;Triple Viral 2;2;1
+39;Difteria 2;1;12
+40;Polio 3;3;0
+41;Rotavirus 3;2;0
+42;Neumococo 3;2;2
+43;Meningococo 3;2;2
+44;Papiloma Humano 2;2;9
+45;Rabia 2;2;0
+46;Tosferina 2;1;6
+47;Sarampión 2;1;1
+48;Rubéola 2;1;1
+49;Parotiditis 2;1;1
+50;Varicela Zoster 2;1;1
+51;H1N1 2;1;6
+52;H3N2 2;1;6
+53;Gripe Estacional 2;1;6
+54;Rotavirus 4;2;0
+55;Neumococo 4;2;2
+56;Meningococo 4;2;2
+57;Hepatitis C 2;1;0
+58;Tétanos 4;1;12
+59;Polio 4;3;0
+60;Influenza 4;1;6
