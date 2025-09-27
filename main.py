@@ -3,9 +3,23 @@ PODEROSISIMO SISTEMA DE VACUNACIONN
 POR: ALEXANDER WING ROJAS 
 Taller de Programación - Semestre II 2025
 
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠝⡄⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠤⡀⠀⠀⠀⠀⣘⡴⡀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢈⡄⠡⣀⣤⣶⣿⣿⣷⡱⡀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⠚⢉⠈⡄⢹⣿⣿⠿⠛⠉⠑⡡⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⢴⢺⡿⠋⢭⠀⡘⡄⠘⡀⢫⠀⠀⠀⠀⠀⠑⠃
+    ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⠁⠀⡀⠁⢣⠐⡈⢆⡱⠜⠊⠑⣀⡆⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⠀⠀⠀⠀⣠⢊⣇⠀⠱⣘⡤⠗⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠀⣀⠠⠐⠉⠀⠁⠈⠓⠊⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+
 '''
 
+import os #importo os para poder usar "cls" y limpiar la terminal luego de cada print de menus
+import datetime #importo datetime para sacar la fecha y usarla en registros de vacunacion
+
 def mostrar_menu(): #menu principal | depende el input printea las funciones 
+    os.system("cls")
     print("=================================")
     print("     Sistema de Vacunación")
     print("=================================")
@@ -74,6 +88,7 @@ def mostrar_vacunas(vacunas):
 
 def menu_administracion(vacunas):
     while True: 
+        os.system("cls")
         print('\n Menu Administración')
         print("1. Agregar Vacuna")
         print("2. Eliminar Vacuna")
@@ -95,6 +110,27 @@ def menu_administracion(vacunas):
             break
         else:
             print("Opción no válida. Intente de nuevo.")
+
+def cargar_registros(): 
+    registros = []
+    try:
+        with open("registros.txt", "r") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split(";")
+                registro = {
+                    "cedula": datos[0],
+                    "nombre": datos[1],
+                    "edad": int(datos[2]),
+                    "sexo": datos[3],
+                    "id_vacuna": int(datos[4]),
+                    "fecha": datos[5],
+                    "dosis": int(datos[6])
+                }
+
+                registros.append(registro)
+    except FileNotFoundError:
+        print("Archivo registros.txt no encontrado")
+    return registros
 
 
 def main():
@@ -119,8 +155,6 @@ def main():
             break
         else:
             print("Opción no válida, intente de nuevo.")
-
-
 
 if __name__ == "__main__":
     main()
