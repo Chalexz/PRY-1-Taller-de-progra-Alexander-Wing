@@ -272,6 +272,44 @@ def consultar_por_rango_edad(registros, edad_min, edad_max):
         print("No se encontraron registros en ese rango de edad.")
     input("Presione Enter para continuar...")
 
+#=============================================== FUNCIONES ESTADISTICAS ==============================================================
+
+def estadisticas_generales(registros, vacunas):
+    limpiar_pantalla()
+    total_personas = len(set([r["cedula"] for r in registros]))
+    print(f"Total de personas vacunadas (únicas): {total_personas}")
+
+    print("\nVacunas aplicadas por tipo:")
+    for v in vacunas:
+        count = len([r for r in registros if r["id_vacuna"] == v["id"]])
+        print(f"{v['nombre']} - {count} aplicaciones")
+
+    print("\nPromedio de edad por vacuna:")
+    for v in vacunas:
+        edades = [r["edad"] for r in registros if r["id_vacuna"] == v["id"]]
+        if edades:
+            print(f"{v['nombre']} - {sum(edades)//len(edades)} años promedio")
+        else:
+            print(f"{v['nombre']} - No hay registros")
+
+    hombres = len([r for r in registros if r["sexo"]=="M"])
+    mujeres = len([r for r in registros if r["sexo"]=="F"])
+    total = hombres + mujeres
+    if total > 0:
+        print(f"\nPorcentaje de hombres vacunados: {hombres*100/total:.2f}%")
+        print(f"Porcentaje de mujeres vacunadas: {mujeres*100/total:.2f}%")
+    else:
+        print("\nNo hay datos de sexo para calcular porcentaje")
+
+    completos = 0
+    for r in registros:
+        vacuna = next((v for v in vacunas if v["id"]==r["id_vacuna"]), None)
+        if vacuna and r["dosis"] >= vacuna["dosis"]:
+            completos += 1
+    print(f"\nCantidad de personas que completaron todas las dosis: {completos}")
+    input("Presione Enter para continuar...")
+
+
 def main():
     vacunas = cargar_vacunas() 
     while True:
