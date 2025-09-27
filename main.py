@@ -309,6 +309,25 @@ def estadisticas_generales(registros, vacunas):
     print(f"\nCantidad de personas que completaron todas las dosis: {completos}")
     input("Presione Enter para continuar...")
 
+#=============================================== FUNCIONES ALERTA DE SEGUIMIENTO ==============================================================
+
+def alerta_seguimiento(registros, vacunas):
+    os.system("cls")
+    hoy = datetime.date.today()
+    seguimiento = []
+    for r in registros:
+        vacuna = next((v for v in vacunas if v["id"]==r["id_vacuna"]), None)
+        if vacuna and vacuna["dosis"]>1:
+            fecha = datetime.date.fromisoformat(r["fecha"])
+            if (hoy - fecha).days >= 90 and r["dosis"] < vacuna["dosis"]:
+                seguimiento.append(r)
+    if seguimiento:
+        print("Personas que deben recibir la siguiente dosis:")
+        for s in seguimiento:
+            print(f"{s['nombre']} - Cédula {s['cedula']} - Vacuna ID {s['id_vacuna']} - Dosis actual {s['dosis']}")
+    else:
+        print("No hay personas pendientes de dosis")
+    input("Presione Enter para continuar...")
 
 def main():
     vacunas = cargar_vacunas() 
