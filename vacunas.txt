@@ -58,3 +58,4 @@
 58;Tétanos 4;1;12
 59;Polio 4;3;0
 60;Influenza 4;1;6
+61;COVID-19 refuerzo;1;18

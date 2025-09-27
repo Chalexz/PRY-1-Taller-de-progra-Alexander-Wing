@@ -23,7 +23,7 @@ import datetime #importo datetime para sacar la fecha y usarla en registros de v
 Objetivo: Autenticar al usuario verificando sus credenciales contra el archivo usuarios.txt.
 Entrada: ninguna
 Salida: True si el usuario y clave son correctos, False si no
-Restricción: compara con usuarios.txt, formato usuario;clave
+Restricción: nada
 """
 def autenticar_usuario():
     
@@ -45,13 +45,14 @@ def autenticar_usuario():
         print("Archivo usuarios.txt no encontrado ಠ╭╮ಠ")
         return False
 
+
 #=============================================== MENU PRINCIPAL ==============================================================
 
 """
 Objetivo: Mostrar el menú principal del sistema de vacunación.
 entrada: ninguna
 salida: imprime el menú principal en pantalla
-restricción: limpia la terminal antes de mostrar el menú
+restricción: nada
 """
 def mostrar_menu():    
     os.system("cls")
@@ -456,7 +457,7 @@ def main():
             if autenticar_usuario():
                 menu_administracion(vacunas)
             else:
-                input("No puede acceder a Administración. Presione Enter para continuar...")
+                input("No puede acceder a Administración ಠ╭╮ಠ. Presione Enter para continuar...")
         elif opcion == "2":
             registrar_vacunacion(vacunas, registros)
         elif opcion == "3":
